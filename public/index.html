@@ -1,0 +1,62 @@
+<html>
+
+<head>
+  <link type="text/css" href="screen.css" rel="stylesheet" />
+</head>
+
+<body onload="load()">
+  <script type="text/javascript" src="Decoder.js"></script>
+  <script type="text/javascript" src="YUVCanvas.js"></script>
+  <script type="text/javascript" src="Player.js"></script>
+
+  <script type="text/javascript">
+    var nframes = 0, fps = 0, bitrate = 0;
+    function load() {
+      var broadway = new Player({
+        useWorker: true,
+        reuseMemory: true,
+        webgl: true
+      });
+      document.getElementById("player").appendChild(broadway.canvas);
+
+      var socket = new WebSocket("ws://" + window.location.hostname + ":8003");
+
+      socket.onmessage = function (event) {
+        event.data.arrayBuffer().then(buffer => {
+          var arr = new Uint8Array(buffer);
+          nframes++;
+          fps++;
+          bitrate += arr.length * 8 / 1024;
+          broadway.decode(arr);
+        });
+      };
+
+      broadway.onPictureDecoded = function(buf, width, height, infos) {
+        //console.log(width);
+      };
+
+      setInterval(function () {
+        console.log(`FPS = ${fps}`);
+        document.getElementById("fps").innerText = fps;
+        document.getElementById("frames").innerText = nframes;
+        document.getElementById("bitrate").innerText = parseFloat(bitrate).toFixed(1);
+        bitrate = 0;
+        fps = 0;
+      }, 1000);
+    }
+  </script>
+  <div id="player"></div>
+  <div id="statistics">
+    <h2>Statistics</h2>
+    <table>
+      <tr><td>FPS</td><td id="fps"></td></tr>
+      <tr><td>Frames</td><td id="frames"></td></tr>
+      <tr><td>Bitrate (kbps)</td><td id="bitrate"></td></tr>
+    </table>
+  </div>
+
+  <!-- <canvas id='canvas' width="640" height="100" style="background-color: #333333;"></canvas> -->
+
+</body>
+
+</html>
