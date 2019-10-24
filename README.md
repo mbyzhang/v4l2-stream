@@ -4,9 +4,9 @@ Stream V4L2 camera to Web Browser
 
 ## Prerequisites
 
-* GStreamer 1.0
+* gstreamer1.0
 * libwebsocketpp
-* Boost System
+* libboost-system
 * pkg-config
 * build-essential
 * python3 (optional, for a simple web server hosting static files)
