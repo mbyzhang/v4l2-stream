@@ -40,4 +40,4 @@ $ cd v4l2-stream/public
 $ python3 -m http.server
 ```
 
-and open [http://localhost/](http://localhost/) to see the stream.
+and open [http://localhost:8000/](http://localhost:8000/) to see the stream.
