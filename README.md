@@ -6,6 +6,7 @@ Stream V4L2 camera to Web Browser
 
 * GStreamer 1.0
 * libwebsocketpp
+* Boost System
 * pkg-config
 * build-essential
 * python3 (optional, for a simple web server hosting static files)
@@ -13,7 +14,7 @@ Stream V4L2 camera to Web Browser
 Install with
 
 ```
-$ sudo apt install libgstreamer1.0-dev libwebsocketpp-dev pkg-config build-essential python3
+$ sudo apt install libgstreamer1.0-dev libwebsocketpp-dev pkg-config build-essential libboost-system-dev python3
 ```
 
 ## Download & Build
